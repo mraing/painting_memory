@@ -1,0 +1,47 @@
+/* /capture —— 分享今天（§3.1 第 2 步） */
+
+.capture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.capture__lead {
+  margin: 0 0 2rem;
+  font-family: var(--font-kaiti);
+  font-size: 1.05rem;
+  line-height: 2;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+}
+
+.capture__stage {
+  display: grid;
+  place-items: center;
+  width: 9rem;
+  height: 9rem;
+  margin-bottom: 2.2rem;
+  border: 1px dashed rgba(180, 154, 124, 0.6);
+  border-radius: 50%;
+  background: rgba(180, 154, 124, 0.06);
+}
+
+.capture__error {
+  margin: 0 0 1.4rem;
+  padding: 0.6rem 1rem;
+  max-width: 22em;
+  border-radius: var(--radius-sm);
+  background: rgba(184, 58, 30, 0.08);
+  color: var(--vermilion);
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.capture__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}

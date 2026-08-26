@@ -1,0 +1,265 @@
+/* ============================================================
+   书浏览页（BookPage / PageDetailView）—— 侘寂 token 化
+   §2 决策 8：一本总书 · 按月分章 · 开书落最新页
+   ============================================================ */
+
+/* —— 提示行 / mock 徽标 —— */
+
+.book-page__hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+.book-page__mock {
+  flex-shrink: 0;
+  padding: 1px 8px;
+  border: 1px solid rgba(180, 154, 124, 0.55);
+  border-radius: 999px;
+  color: var(--earth);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.book-page__where {
+  margin: 0.9rem 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+}
+
+.book-page__loading {
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--ink-soft);
+  letter-spacing: 0.3em;
+}
+
+/* —— 空书态 —— */
+
+.book-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 3.5rem 1rem 2rem;
+  text-align: center;
+}
+
+.book-empty__title {
+  margin: 1rem 0 0;
+  font-family: var(--font-kaiti);
+  font-size: 1.35rem;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+}
+
+.book-empty__sub {
+  margin: 0 0 1.75rem;
+  font-size: 0.92rem;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+
+.book-empty__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* —— 月份章节签 —— */
+
+.book-chapters {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding: 0.25rem 0.1rem 0.35rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.book-chapters::-webkit-scrollbar {
+  display: none;
+}
+
+.book-chapters__tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-kaiti);
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  padding: 0.3rem 0.7rem 0.35rem;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-spring),
+    border-color var(--dur-fast) var(--ease-spring),
+    background-color var(--dur-fast) var(--ease-spring);
+}
+
+.book-chapters__tab:active {
+  background: rgba(180, 154, 124, 0.14);
+}
+
+.book-chapters__tab.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--earth);
+}
+
+.book-chapters__count {
+  margin-left: 0.35rem;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  color: var(--earth);
+  vertical-align: super;
+}
+
+/* —— 删除确认对话框 —— */
+
+.book-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(58, 54, 48, 0.38);
+  animation: book-modal-fade var(--dur-fast) var(--ease-out) both;
+}
+
+.book-modal__card {
+  width: min(320px, 100%);
+  padding: 1.6rem 1.4rem 1.3rem;
+  background:
+    linear-gradient(rgba(244, 239, 230, 0.92), rgba(244, 239, 230, 0.92)),
+    var(--paper-texture, none);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 40px rgba(58, 54, 48, 0.28);
+  text-align: center;
+  animation: book-modal-rise var(--dur-spring) var(--ease-spring) both;
+}
+
+.book-modal__title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-kaiti);
+  font-size: 1.15rem;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+
+.book-modal__sub {
+  margin: 0 0 1.4rem;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+
+.book-modal__actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@keyframes book-modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes book-modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* —— 单页 3D 叠加层（§6.2 第二层） —— */
+
+.page-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow-y: auto;
+  background:
+    linear-gradient(rgba(244, 239, 230, 0.94), rgba(244, 239, 230, 0.94)),
+    var(--paper-texture, none);
+  padding:
+    calc(0.9rem + env(safe-area-inset-top)) 1.1rem
+    calc(2rem + env(safe-area-inset-bottom));
+  animation: book-modal-fade var(--dur-fast) var(--ease-out) both;
+}
+
+.page-detail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.page-detail__month {
+  font-family: var(--font-kaiti);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+}
+
+.page-detail__scene {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(58, 54, 48, 0.16), 0 0 0 1px rgba(58, 54, 48, 0.06);
+  background: rgba(58, 54, 48, 0.04);
+}
+
+.page-detail__hint {
+  margin: 0.55rem 0 1.1rem;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+}
+
+.page-detail__diary {
+  margin: 0 auto;
+  max-width: 30em;
+  font-family: var(--font-kaiti);
+  font-size: 1.02rem;
+  line-height: 1.95;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-align: justify;
+}
+
+.page-detail__diary::before {
+  content: '「';
+  color: var(--earth);
+}
+
+.page-detail__diary::after {
+  content: '」';
+  color: var(--earth);
+}
+
+.page-detail__diary--empty {
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-modal__card,
+  .book-modal,
+  .page-detail {
+    animation-duration: 0.01ms;
+  }
+}

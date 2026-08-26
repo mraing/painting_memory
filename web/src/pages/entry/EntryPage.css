@@ -1,0 +1,100 @@
+/* /entry —— 生成日记 + 收进书（§3.1 第 5/6 步） */
+
+.entry__state {
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--ink-soft);
+  letter-spacing: 0.2em;
+}
+
+.entry__center-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.entry__error {
+  margin: 0 0 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(184, 58, 30, 0.08);
+  color: var(--vermilion);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.entry__generating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  font-family: var(--font-kaiti);
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+
+/* —— 绘本页版式：画面第一，文字在下（§2 决策 7） —— */
+
+.entry__page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.entry__date {
+  margin: 0 0 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+}
+
+.entry__scene {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(58, 54, 48, 0.16), 0 0 0 1px rgba(58, 54, 48, 0.06);
+  background: rgba(58, 54, 48, 0.04);
+}
+
+.entry__scene-empty {
+  display: grid;
+  place-items: center;
+  height: 46vh;
+  min-height: 300px;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+}
+
+.entry__diary {
+  margin: 1.4rem auto 1.8rem;
+  max-width: 30em;
+  font-family: var(--font-kaiti);
+  font-size: 1.02rem;
+  line-height: 1.95;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-align: justify;
+  white-space: pre-wrap;
+}
+
+.entry__diary::before {
+  content: '「';
+  color: var(--earth);
+}
+
+.entry__diary::after {
+  content: '」';
+  color: var(--earth);
+}
+
+.entry__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}

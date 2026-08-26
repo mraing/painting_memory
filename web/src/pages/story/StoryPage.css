@@ -1,0 +1,175 @@
+/* /story —— AI 引导对话（§3.1 第 4 步） */
+
+.story__state {
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--ink-soft);
+  letter-spacing: 0.2em;
+}
+
+.story__center-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* —— 顶栏：提示 + 写好啦 —— */
+
+.story__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.story__bar-hint {
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.story__offline {
+  margin: 0 0 0.9rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: rgba(119, 128, 107, 0.14);
+  color: var(--moss);
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
+
+/* —— 对话区 —— */
+
+.story__scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  height: 52vh;
+  min-height: 300px;
+  padding: 1rem 0.2rem 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.story__row {
+  display: flex;
+}
+
+.story__row--ai {
+  justify-content: flex-start;
+}
+
+.story__row--user {
+  justify-content: flex-end;
+}
+
+.story__bubble {
+  max-width: 78%;
+  padding: 0.7rem 0.95rem;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  white-space: pre-wrap;
+  word-break: break-word;
+  animation: story-bubble-in var(--dur-spring) var(--ease-spring) both;
+}
+
+@keyframes story-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.story__row--ai .story__bubble {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(180, 154, 124, 0.28);
+  color: var(--ink);
+  border-bottom-left-radius: 4px;
+}
+
+.story__row--user .story__bubble {
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom-right-radius: 4px;
+}
+
+/* —— 打字中指示 —— */
+
+.story__typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.85rem 1rem;
+}
+
+.story__typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--earth);
+  animation: story-dot 1.2s ease-in-out infinite;
+}
+
+.story__typing span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.story__typing span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes story-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* —— 错误行 —— */
+
+.story__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(184, 58, 30, 0.07);
+  color: var(--vermilion);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* —— 输入行 —— */
+
+.story__input {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.story__input .huiyi-field {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story__bubble {
+    animation-duration: 0.01ms;
+  }
+  .story__typing span {
+    animation: none;
+    opacity: 0.6;
+  }
+}

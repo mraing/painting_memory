@@ -1,0 +1,46 @@
+/* 断网横幅（全局壳层，§3.2 兜底）—— 苔色状态点 + 半墨文案，纸底细边 */
+.huiyi-offline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem calc(0.5rem + env(safe-area-inset-top));
+  background: var(--paper);
+  border-bottom: 1px solid rgba(180, 154, 124, 0.45);
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  animation: huiyi-offline-in 0.3s var(--ease-spring) both;
+}
+
+.huiyi-offline__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--moss);
+  flex-shrink: 0;
+}
+
+@keyframes huiyi-offline-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .huiyi-offline {
+    animation-duration: 0.01ms;
+    transform: none;
+  }
+}

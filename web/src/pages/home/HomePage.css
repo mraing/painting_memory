@@ -1,0 +1,121 @@
+/* 首页 hero —— §4.5 文案缓慢跃动 + §4.2 不对称平衡布局（375px 基线，向上响应式） */
+
+.hero {
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: calc(1.4rem + env(safe-area-inset-top)) 1.5rem
+    calc(1.75rem + env(safe-area-inset-bottom));
+}
+
+/* —— 头：印章 + 字标（不对称：印章在左，日期靠右） —— */
+
+.hero__head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.hero__brand {
+  font-family: var(--font-kaiti);
+  font-size: 1.45rem;
+  letter-spacing: 0.32em;
+  margin-left: 0.1rem;
+  color: var(--ink);
+}
+
+.hero__date {
+  margin-left: auto;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  padding-top: 0.4rem; /* 视觉上与楷体字标对齐 */
+}
+
+/* —— 主体：三句文案 12s 一轮，缓慢上浮淡入淡出 —— */
+
+.hero__copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  min-height: 9em; /* 预留两行文案高度，避免布局跳动 */
+}
+
+.hero__phrase {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-family: var(--font-kaiti);
+  font-size: clamp(1.5rem, 5.8vw, 1.95rem);
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 1.2s var(--ease-spring),
+    transform 1.2s var(--ease-spring);
+  pointer-events: none;
+}
+
+/* 左侧陶土细竖线：侘寂式引导阅读的轻分隔 */
+.hero__phrase::before {
+  content: '';
+  flex-shrink: 0;
+  width: 2px;
+  height: 1.7em;
+  margin-right: 0.9rem;
+  background: var(--earth);
+  border-radius: 1px;
+}
+
+.hero__phrase.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* —— 底：克制入口，不对称平衡（主行动左，书的入口右） —— */
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hero__book {
+  margin-left: auto;
+}
+
+/* —— 脚：极安静的设置入口（不对称平衡的收尾） —— */
+
+.hero__foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(180, 154, 124, 0.28);
+}
+
+.hero__settings {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  min-height: 32px;
+  padding: 0 0.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__phrase {
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.01ms;
+    transform: none;
+  }
+}

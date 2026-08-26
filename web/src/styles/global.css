@@ -1,0 +1,212 @@
+/* ============================================================
+   绘忆 · 侘寂设计系统全局样式 —— development.md §4
+   色板/字体/动效 token 与 tokens.ts 一一对应；
+   纸颗粒纹理由 paperTexture.ts 注入 --paper-texture。
+   ============================================================ */
+
+:root {
+  /* —— §4.3 色彩 —— */
+  --paper: #f4efe6; /* 纸感底色（米白，叠加颗粒纹理） */
+  --ink: #3a362f; /* 主墨色：正文、标题 */
+  --ink-soft: #857e70; /* 半墨：次要文字、时间戳 */
+  --earth: #b49a7c; /* 陶土：插图、分隔、选中态 */
+  --moss: #77806b; /* 苔色：状态、成功 */
+  --vermilion: #b83a1e; /* 朱红：落款、关键强调、hero 点睛 */
+
+  /* —— §4.3 字体（全开源，npm 包 + unicode-range 分包，见 README）—— */
+  --font-serif-cn: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --font-kaiti: 'LXGW WenKai Screen', 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue',
+    'Microsoft YaHei', sans-serif;
+
+  /* —— §4.3 动效 —— */
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-spring: 420ms;
+  --dur-fast: 200ms;
+
+  /* —— 排版 —— */
+  --leading-body: 1.9; /* 正文行高起步 1.9 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  /* 纸颗粒纹理（paperTexture.ts 启动时注入；缺省纯色纸底兜底） */
+  --paper-texture: none;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--paper);
+  background-image: var(--paper-texture);
+  background-size: 256px 256px; /* 与 paperTexture.ts 生成尺寸一致 */
+  color: var(--ink);
+  font-family: var(--font-serif-cn);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  text-size-adjust: 100%;
+}
+
+/* 表单控件继承字体与配色，避免移动端默认外观 */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 移动端无 hover 依赖：键盘/读屏聚焦可见，触摸用 :active 反馈 */
+:focus-visible {
+  outline: 2px solid var(--earth);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--earth);
+  color: var(--paper);
+}
+
+/* —— 页面壳（PageShell 与 hero 共用的移动端基线） —— */
+
+.huiyi-page {
+  min-height: 100dvh;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(1.5rem + env(safe-area-inset-top)) 1.5rem
+    calc(2.25rem + env(safe-area-inset-bottom));
+}
+
+.huiyi-page__title {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-kaiti);
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* —— 朱红小落款印章（§4.3 签名元素，落款级小面积点缀） —— */
+
+.huiyi-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vermilion);
+  color: var(--paper);
+  font-family: var(--font-kaiti);
+  line-height: 1;
+  border-radius: 4px;
+  transform: rotate(-5deg);
+  box-shadow: inset 0 0 0 1px rgba(244, 239, 230, 0.28);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* —— View Transitions 页面过渡（§4.3；Safari 18.2+ 支持，不支持时由
+     navigateWithViewTransition 静默退化） —— */
+
+::view-transition-old(root) {
+  animation: huiyi-vt-out var(--dur-fast) var(--ease-spring) both;
+}
+
+::view-transition-new(root) {
+  animation: huiyi-vt-in var(--dur-spring) var(--ease-out) both;
+}
+
+@keyframes huiyi-vt-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes huiyi-vt-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* —— 尊重 reduced-motion：一切动效降级为短促淡入淡出 —— */
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 120ms;
+  }
+}
+
+/* —— 静态降级立绘的呼吸浮动（three/IllustrationScene 静态版使用） —— */
+
+@keyframes huiyi-breathe {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -6px;
+  }
+}
+
+.huiyi-breathe {
+  animation: huiyi-breathe 7s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .huiyi-breathe {
+    animation: none;
+  }
+}
+
+/* —— 全局轻提示（Toast，收进书等关键反馈） —— */
+
+.huiyi-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(2.2rem + env(safe-area-inset-bottom));
+  z-index: 60;
+  transform: translateX(-50%);
+  max-width: min(86vw, 26em);
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-kaiti);
+  font-size: 0.92rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(58, 54, 48, 0.3);
+  animation: huiyi-toast-in var(--dur-spring) var(--ease-spring) both;
+}
+
+@keyframes huiyi-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .huiyi-toast {
+    animation-duration: 0.01ms;
+  }
+}

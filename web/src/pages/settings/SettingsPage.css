@@ -1,0 +1,79 @@
+/* 设置页（§7 合规与隐私 + §3.2 数据逃生口）—— 侘寂分区卡片，朱红仅限删除入口 */
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.settings__section {
+  border-top: 1px solid rgba(180, 154, 124, 0.35);
+  padding-top: 1.1rem;
+}
+
+.settings__section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.settings__title {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-kaiti);
+  font-weight: 400;
+  font-size: 1.02rem;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.settings__title::before {
+  content: '';
+  width: 2px;
+  height: 1em;
+  background: var(--earth);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.settings__body {
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.9;
+}
+
+.settings__list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--ink-soft);
+}
+
+.settings__list li {
+  margin-bottom: 0.45rem;
+}
+
+.settings__muted {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  margin: 0.6rem 0 0;
+}
+
+.settings__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.settings__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
