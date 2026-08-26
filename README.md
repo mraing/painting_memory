@@ -4,15 +4,36 @@
 
 ## 快速开始
 
+### 后端 · 立绘转换服务（FastAPI，`server/`）
+
+照片 → 剪纸立体绘本的分层转换（分割 / 风格化 / 剪纸）由 Python 后端完成，全程内存态处理、不落盘不留原图（隐私承诺，见 `development.md` §5.4）。
+
+需要 Python 3.10+：
+
+```bash
+cd server
+python3 -m venv .venv                      # 首次
+.venv/bin/pip install -r requirements.txt  # 首次
+./start.sh                                 # uvicorn 0.0.0.0:8000（已在运行则直接提示）
+```
+
+- 校验：`curl http://127.0.0.1:8000/api/health`。
+- **模型**：首次调用自动下载 FastSAM_S.onnx（47MB）与 depth_anything_v2_small_quant.onnx（27MB，走镜像列表，可用 `HUIYI_GITHUB_MIRROR` 覆盖）；AnimeGAN 权重（`animegan_hayao.onnx` / `animegan_face_paint.onnx`）需手动放入 `server/models/`，缺失时自动降级为确定性风格化。任一模型缺失服务照常可用。
+- **接口**：`POST /api/convert`（multipart 照片，≤25MB → 分层 PNG data URL + 配置 JSON）、`GET /api/health`。
+- **环境变量**：`HUIYI_MODELS_DIR`（模型目录，默认 `server/models/`）、`HUIYI_SEGMENTOR`（默认 `fastsam`，可切 `sam` 质量档）。
+- 前端默认连 `http://127.0.0.1:8000`，部署后可用 `VITE_CONVERT_API` 覆盖（`web/src/features/convert/api.ts`）。
+
+### 前端 · PWA（`web/`）
+
 ```bash
 cd web
 pnpm install
-pnpm dev      # 开发
+pnpm dev      # 开发（0.0.0.0:4177）
 pnpm build    # 类型检查 + 构建
 pnpm test     # vitest 冒烟测试
 ```
 
-后端暂由前端 Mock 适配器顶替（`web/src/features/ai/mockAdapter.ts`），接口契约见 `docs/api-contract.md`。
+AI 对话 / 日记等能力仍由前端 Mock 适配器顶替（`web/src/features/ai/mockAdapter.ts`），接口契约见 `docs/api-contract.md`。
 
 ## 字体
 
